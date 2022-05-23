@@ -1,0 +1,15 @@
+version: "3.9"
+services:    
+  ertx-web:
+    container_name: calphp-web
+    image: cal/php7.2.11:1.0
+    ports:
+      - 9005:80
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - calphp-network
+
+networks:
+  calphp-network:
+    name: calphp-network
