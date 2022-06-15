@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  arsy-mydb:
+    container_name: arsy-mydb
+    image: mariadb/server:10.1.36
+    ports:
+      - "3307:3306"
+    volumes:
+      - /home/ical135/PROJECTS/PHP/ARSY/mydb-data:/var/lib/mysql
+    environment:
+        - MYSQL_ROOT_PASSWORD=kanigoro
+    networks:
+      - arsy-network
+
+  arsy-web:
+    container_name: arsy-web
+    image: cal/php7.2.11:1.0
+    ports:
+      - 9004:80
+    volumes:
+      - /home/ical135/PROJECTS/PHP/ARSY/src:/var/www/html
+    networks:
+      - arsy-network
+
+  arsy-rabbitmq:
+    container_name: arsy-rabbitmq
+    image: rabbitmq:3.8-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=ical135
+      - RABBITMQ_DEFAULT_PASS=kanigoro
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+      - '15674:15674'
+      - '1883:1883'
+      - '15675:15675'
+    networks:
+      - arsy-network
+
+networks:
+  arsy-network:
+    name: arsy-network
